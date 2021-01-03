@@ -4,7 +4,6 @@
 namespace App\Entity;
 
 
-use DateTime;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,19 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tasks")
  * @ORM\HasLifecycleCallbacks()
  */
-class Task implements JsonSerializable
+class Task extends Entity implements JsonSerializable
 {
-
-    /**
-     * ID сущности задачи
-     *
-     * @var int
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * Описание задачи
      *
@@ -48,23 +36,11 @@ class Task implements JsonSerializable
     private $name;
 
     /**
-     * Дата создания задачи
-     *
-     * @var DateTime
-     * @ORM\Column(type="datetime")
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $created_at;
-
-
-    /**
-     * Получить ID задачи
-     *
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
+    private $user;
 
     /**
      * Получить описание задачи
@@ -111,21 +87,6 @@ class Task implements JsonSerializable
     }
 
     /**
-     * Получить дату создания задачи
-     *
-     * @return DateTime|null
-     */
-    public function getCreatedAt(): ?DateTime
-    {
-        return $this->created_at;
-    }
-
-    public function beforeSave()
-    {
-        $this->created_at = new DateTime();
-    }
-
-    /**
      * @inheritDoc
      */
     public function jsonSerialize()
@@ -136,5 +97,17 @@ class Task implements JsonSerializable
             'description' => $this->getDescription(),
             'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s')
         ];
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
