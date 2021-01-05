@@ -6,7 +6,9 @@ namespace App\Repository;
 
 use DateTimeInterface;
 use App\Entity\User;
+use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 
@@ -17,8 +19,9 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function getUserTasks(User $user, DateTimeInterface $date_start, DateTimeInterface $date_end): array
+    public function getUserTasks(User $user, DateTimeInterface $date_start, DateTimeInterface $date_end): Collection
     {
-
+        $tasks = $user->getTasks();
+        return $tasks;
     }
 }

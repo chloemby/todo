@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace App\Controller;
 
@@ -13,16 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * Class TaskController
- * @package App\Controller
- * @Route("/api", name="task_api")
- */
+
 class TaskController extends BaseController
 {
     /**
      *
-     * @Route("/tasks", name="tasks", methods={"GET"})
+     * @Route("/task", name="tasks", methods={"GET"})
      * @param Request $request
      * @param UserRepository $userRepository
      * @return Response
