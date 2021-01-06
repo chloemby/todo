@@ -10,7 +10,6 @@ use Exception;
 use InvalidArgumentException;
 use App\Builder\TaskBuilder;
 use App\Services\TaskService;
-use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

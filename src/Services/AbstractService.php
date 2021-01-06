@@ -10,8 +10,14 @@ use App\Builder\BuilderInterface;
 use App\Entity\EntityInterface;
 use App\Services\Validators\AbstractValidator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use PhpParser\Builder;
 
+
+/**
+ * Класс абстрактного сервиса с бизнес-логикой
+ *
+ * Class AbstractService
+ * @package App\Services
+ */
 abstract class AbstractService
 {
     /**
@@ -29,6 +35,11 @@ abstract class AbstractService
      */
     protected $validator;
 
+    /**
+     * @param BuilderInterface $builder
+     * @param ServiceEntityRepository $repository
+     * @param AbstractValidator $validator
+     */
     public function __construct(BuilderInterface $builder,
                                 ServiceEntityRepository $repository,
                                 AbstractValidator $validator)
