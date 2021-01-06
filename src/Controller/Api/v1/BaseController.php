@@ -4,7 +4,6 @@
 namespace App\Controller\Api\v1;
 
 
-use App\Builder\AbstractBuilder;
 use App\Builder\BuilderInterface;
 use App\Services\AbstractService;
 use App\Services\Helpers\ApiResponse;
