@@ -3,9 +3,9 @@
 namespace App\Controller\Api\v1;
 
 
-use App\Repository\UserRepository;
 use Exception;
 use InvalidArgumentException;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -4,7 +4,10 @@
 namespace App\Controller\Api\v1;
 
 
-use App\Service\ApiResponse;
+use App\Builder\AbstractBuilder;
+use App\Builder\BuilderInterface;
+use App\Services\AbstractService;
+use App\Services\Helpers\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +15,29 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
+ * Базовый контроллер
+ *
  * Class BaseController
  * @package App\Controller
  */
 class BaseController extends AbstractController
 {
+    /**
+     * @var AbstractService
+     */
+    protected $service;
+
+    /**
+     * @var BuilderInterface
+     */
+    protected $builder;
+
+    public function __construct(AbstractService $service, BuilderInterface $builder)
+    {
+        $this->service = $service;
+        $this->builder = $builder;
+    }
+
     /**
      * Сообщение для ответа при неизвестной ошибке
      */

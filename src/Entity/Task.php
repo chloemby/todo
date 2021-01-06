@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tasks")
  * @ORM\HasLifecycleCallbacks()
  */
-class Task extends Entity implements JsonSerializable
+class Task extends BaseEntity implements EntityInterface
 {
     /**
      * Описание задачи
@@ -41,6 +41,11 @@ class Task extends Entity implements JsonSerializable
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
+    public function __construct(int $id, string $description, string $name, User $user = null)
+    {
+
+    }
 
     /**
      * Получить описание задачи

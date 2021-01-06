@@ -9,12 +9,12 @@ use Exception;
 use Doctrine\ORM\Mapping as ORM;
 
 
-abstract class Entity
+class BaseEntity
 {
     /**
      * ID сущности задачи
      *
-     * @var int
+     * @var int|null
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,7 +30,7 @@ abstract class Entity
     protected $createdAt;
 
     /**
-     * @var DateTime
+     * @var DateTime|null
      * @ORM\Column(type="datetime", name="deleted_at", nullable=TRUE)
      */
     protected $deletedAt;
@@ -46,7 +46,7 @@ abstract class Entity
      *
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

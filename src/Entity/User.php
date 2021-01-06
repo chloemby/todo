@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends Entity
+class User extends BaseEntity implements EntityInterface
 {
     /**
      * Номер телефона пользователя
