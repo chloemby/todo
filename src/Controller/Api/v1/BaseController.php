@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Controller;
+namespace App\Controller\Api\v1;
 
 
 use App\Service\ApiResponse;
