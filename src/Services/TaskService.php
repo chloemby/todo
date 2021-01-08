@@ -71,7 +71,6 @@ class TaskService extends AbstractService
      * @param string $description Описание задачи
      * @return Task Созданная задача
      * @throws TaskServiceException
-     * @throws \Doctrine\ORM\ORMException
      */
     public function createTask(
         int $userId,
