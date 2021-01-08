@@ -29,6 +29,9 @@ class ApiResponse
     public function __construct($data, string $message = '')
     {
         $this->data = $data;
+        if (is_object($this->data)) {
+            $this->data = $this->data->jsonSerialize();
+        }
         $this->message = $message;
     }
 

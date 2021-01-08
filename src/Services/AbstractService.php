@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use Exception;
-use App\Entity\BaseEntity;
 use App\Builder\BuilderInterface;
 use App\Entity\EntityInterface;
 use App\Services\Validators\AbstractValidator;
@@ -28,7 +27,7 @@ abstract class AbstractService
     /**
      * @var BuilderInterface
      */
-    private $builder;
+    protected $builder;
 
     /**
      * @var AbstractValidator

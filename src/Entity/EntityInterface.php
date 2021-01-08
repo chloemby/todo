@@ -12,7 +12,7 @@ interface EntityInterface
 
     public function getCreatedAt(): DateTime;
 
-    public function getUpdatedAt(): DateTime;
+    public function getUpdatedAt(): ?DateTime;
 
     public function getDeletedAt(): ?DateTime;
 }

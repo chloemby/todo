@@ -7,9 +7,10 @@ namespace App\Entity;
 
 
 use App\Entity\Task;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -20,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
  */
-class User extends BaseEntity implements EntityInterface
+class User extends BaseEntity implements EntityInterface, JsonSerializable
 {
     /**
      * Номер телефона пользователя
@@ -44,9 +45,11 @@ class User extends BaseEntity implements EntityInterface
      */
     private $tasks;
 
-    public function __construct()
+    public function __construct(string $phone, string $name)
     {
-        $this->tasks = new ArrayCollection();
+//        $this->tasks = new ArrayCollection();
+        $this->name = $name;
+        $this->phone = $phone;
     }
 
     /**
@@ -56,19 +59,7 @@ class User extends BaseEntity implements EntityInterface
      */
     public function getPhone()
     {
-        return $this->getPhone();
-    }
-
-    /**
-     * Установить телефон пользователя
-     *
-     * @param string $phone
-     * @return User
-     */
-    public function setPhone(string $phone): User
-    {
-        $this->phone = $phone;
-        return $this;
+        return $this->phone;
     }
 
     /**
@@ -82,18 +73,6 @@ class User extends BaseEntity implements EntityInterface
     }
 
     /**
-     * Установить имя пользователя
-     *
-     * @param string $name
-     * @return User
-     */
-    public function setName(string $name): User
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return Collection|Task[]
      */
     public function getTasks(): Collection
@@ -101,25 +80,15 @@ class User extends BaseEntity implements EntityInterface
         return $this->tasks;
     }
 
-    public function addTask(Task $task): self
+    public function jsonSerialize()
     {
-        if (!$this->tasks->contains($task)) {
-            $this->tasks[] = $task;
-            $task->setUsers($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTask(Task $task): self
-    {
-        if ($this->tasks->removeElement($task)) {
-            // set the owning side to null (unless already changed)
-            if ($task->getUsers() === $this) {
-                $task->setUsers(null);
-            }
-        }
-
-        return $this;
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'phone' => $this->getPhone(),
+            'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
+            'updated_at' => $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d H:i:s') : null,
+            'deleted_at' => $this->getDeletedAt() ? $this->getDeletedAt()->format('Y-m-d H:i:s') : null
+        ];
     }
 }

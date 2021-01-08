@@ -31,12 +31,6 @@ class BaseController extends AbstractController
      */
     protected $builder;
 
-    public function __construct(AbstractService $service, BuilderInterface $builder)
-    {
-        $this->service = $service;
-        $this->builder = $builder;
-    }
-
     /**
      * Сообщение для ответа при неизвестной ошибке
      */
@@ -47,6 +41,14 @@ class BaseController extends AbstractController
      */
     const OK_MESSAGE = 'OK';
 
+    /**
+     * Получить ответ
+     *
+     * @param $data
+     * @param string $message
+     * @param int $status
+     * @return JsonResponse
+     */
     public function response($data, string $message = self::OK_MESSAGE, int $status = Response::HTTP_OK): JsonResponse
     {
         $response = new ApiResponse($data, $message);

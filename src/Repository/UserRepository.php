@@ -6,22 +6,44 @@ namespace App\Repository;
 
 use DateTimeInterface;
 use App\Entity\User;
-use App\Entity\Task;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends AbstractRepository
 {
+
+    /**
+     * UserRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
     }
 
-    public function getUserTasks(User $user, DateTimeInterface $date_start, DateTimeInterface $date_end): Collection
+    /**
+     * Получить задачи пользователя
+     *
+     * @param User $user Пользователь
+     * @param DateTimeInterface $startDate
+     * @param DateTimeInterface $endDate
+     * @return array
+     */
+    public function getUserTasks(User $user, DateTimeInterface $startDate, DateTimeInterface $endDate): array
     {
-        $tasks = $user->getTasks();
-        return $tasks;
+//        $tasks = $user->getTasks();
+//        return $tasks;
+    }
+
+    /**
+     * Создать пользователя в БД
+     *
+     * @param User $user Сущность создаваемого пользователя
+     * @return User
+     */
+    public function createUser(User $user): User
+    {
+        $this->createEntity($user);
+        return $user;
     }
 }

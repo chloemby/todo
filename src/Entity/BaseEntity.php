@@ -64,9 +64,9 @@ class BaseEntity
     /**
      * Получить время последнего обновления сущности
      *
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): ?DateTime
     {
         return $this->updatedAt;
     }

@@ -42,7 +42,13 @@ class Task extends BaseEntity implements EntityInterface
      */
     private $user;
 
-    public function __construct(int $id, string $description, string $name, User $user = null)
+    /**
+     * Task constructor.
+     * @param string $description
+     * @param string $name
+     * @param User|null $user
+     */
+    public function __construct(string $description, string $name, User $user = null)
     {
 
     }

@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * Class TaskRepository
  * @package App\Repository
  */
-class TaskRepository extends ServiceEntityRepository
+class TaskRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -59,5 +59,17 @@ class TaskRepository extends ServiceEntityRepository
             $queryBuilder->setMaxResults($limit);
         }
         return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * Создать задачу в БД
+     *
+     * @param Task $task
+     * @return Task
+     */
+    public function createTask(Task $task)
+    {
+        $this->createEntity($task);
+        return $task;
     }
 }
