@@ -4,9 +4,6 @@
 namespace App\TestsController\Api\v1;
 
 
-
-use App\Entity\Task;
-use App\Services\TaskService;
 use Mockery;
 use App\Controller\Api\v1\TaskController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
