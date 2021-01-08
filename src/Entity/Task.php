@@ -50,7 +50,9 @@ class Task extends BaseEntity implements EntityInterface
      */
     public function __construct(string $description, string $name, User $user = null)
     {
-
+        $this->name = $name;
+        $this->description = $description;
+        $this->user = $user;
     }
 
     /**

@@ -89,12 +89,13 @@ class TaskController extends BaseController
             if (is_null($userId)) {
                 throw new InvalidArgumentException('Такого пользователя не существует', Response::HTTP_BAD_REQUEST);
             }
+            $userId = intval($userId);
             $startDate = $request->get('start_date', date('Y-m-d H:i:s'));
             if (!$startDate || !$startDate = DateTime::createFromFormat('Y-m-d H:i:s', $startDate)) {
                 throw new InvalidArgumentException('Неверно передана дата начала действия задачи', Response::HTTP_BAD_REQUEST);
             }
             $endDate = $request->get('end_date', date('Y-m-d H:i:s', strtotime('+1 days')));
-            if (!$endDate && !$endDate = DateTime::createFromFormat('Y-m-d H:i:s', $endDate)) {
+            if (!$endDate || !$endDate = DateTime::createFromFormat('Y-m-d H:i:s', $endDate)) {
                 throw new InvalidArgumentException('Неверно передана дата конца действия задачи', Response::HTTP_BAD_REQUEST);
             }
             $name = $request->get('name', null);
@@ -102,7 +103,8 @@ class TaskController extends BaseController
                 throw new InvalidArgumentException('Название задачи не может быть пустым', Response::HTTP_BAD_REQUEST);
             }
             $description = $request->get('description', '');
-            $this->service->createTask($userId, $startDate, $endDate, $name, $description);
+            $task = $this->service->createTask($userId, $startDate, $endDate, $name, $description);
+            return $this->response($task);
         } catch (InvalidArgumentException $e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (TaskServiceException $e) {

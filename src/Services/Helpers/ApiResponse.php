@@ -4,6 +4,8 @@
 namespace App\Services\Helpers;
 
 
+use JsonSerializable;
+
 /**
  * Класс для создания и сериализации стандартизированного ответа API
  *
@@ -29,9 +31,6 @@ class ApiResponse
     public function __construct($data, string $message = '')
     {
         $this->data = $data;
-        if (is_object($this->data)) {
-            $this->data = $this->data->jsonSerialize();
-        }
         $this->message = $message;
     }
 

@@ -4,7 +4,7 @@
 namespace App\Builder;
 
 
-use App\Entity\BaseEntity;
+use App\Entity\Task;
 use App\Entity\EntityInterface;
 
 /**
