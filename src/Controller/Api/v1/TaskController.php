@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\v1;
 
 use App\Services\Exceptions\TaskServiceException;
+use App\Services\Helpers\DateHelper;
 use DateTime;
 use Throwable;
 use InvalidArgumentException;
@@ -39,21 +40,29 @@ class TaskController extends BaseController
     public function getTasksAction(Request $request): JsonResponse
     {
         try {
-            $userId = intval($request->get('user_id', null));
+            $userId = $request->get('user_id', null);
             if (!$userId) {
                 throw new InvalidArgumentException('Такого пользователя не существует', Response::HTTP_BAD_REQUEST);
             }
+            $userId = intval($userId);
             $dateStart = $request->get('date_start', date('Y-m-01 00:00:00'));
-            if (!$dateStart) {
+            if (!$dateStart || DateHelper::isDateStringValidFormat($dateStart) == false) {
                 throw new InvalidArgumentException('Неверно передана дата начала действия задач', Response::HTTP_BAD_REQUEST);
             }
             $dateStart = DateTime::createFromFormat('Y-m-d H:i:s', $dateStart);
             $dateEnd = $request->get('date_end', date('Y-m-t 23:59:59'));
+            if (!$dateEnd || DateHelper::isDateStringValidFormat($dateEnd) == false) {
+                throw new InvalidArgumentException('Неверно передана дата конца действия задач', Response::HTTP_BAD_REQUEST);
+            }
             $dateEnd = DateTime::createFromFormat('Y-m-d H:i:s', $dateEnd);
             $offset = $request->get('offset', 0);
             $limit = $request->get('limit', 100);
             $tasks = $this->service->findByUserId($userId, $dateStart, $dateEnd, $offset, $limit);
-            return $this->response($tasks);
+            $response = $this->response($tasks);
+            if (is_null($tasks) === false && count($tasks) === 0) {
+                $response = $this->response($tasks, self::OK_MESSAGE, Response::HTTP_NO_CONTENT);
+            }
+            return $response;
         } catch (InvalidArgumentException $e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
@@ -104,7 +113,7 @@ class TaskController extends BaseController
             }
             $description = $request->get('description', '');
             $task = $this->service->createTask($userId, $startDate, $endDate, $name, $description);
-            return $this->response($task);
+            return $this->response($task, self::OK_MESSAGE, Response::HTTP_CREATED);
         } catch (InvalidArgumentException $e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (TaskServiceException $e) {

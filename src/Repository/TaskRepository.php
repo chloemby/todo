@@ -36,29 +36,31 @@ class TaskRepository extends AbstractRepository
         int $userId,
         DateTime $dateStart = null,
         DateTime $dateEnd = null,
-        int $limit = null,
-        int $offset = null)
+        int $offset = null,
+        int $limit = null)
     {
         $queryBuilder = $this->createQueryBuilder('t');
+        $queryBuilder->where('t.user_id = :user_id');
         if ($dateStart) {
-            $queryBuilder->where('t.created_at >= :date_start')
-                ->setParameter('date_start', $dateStart->format('Y-m-d H:i:s'));
+            $queryBuilder->andWhere('t.created_at >= :date_start');
         }
         if ($dateEnd) {
-            $queryBuilder->where('t.created_at <= :date_end')
-                ->setParameter('date_end', $dateEnd->format('Y-m-d H:i:s'));
+            $queryBuilder->andWhere('t.created_at <= :date_end');
         }
-        if ($userId) {
-            $queryBuilder->where('t.user_id = :user_id')
-                ->setParameter('user_id', $userId);
+        $params = [
+            'user_id' => $userId
+        ];
+        if ($dateStart) {
+            $params['date_start'] = $dateStart;
+            $params['date_end'] = $dateEnd;
         }
-        if ($offset) {
+        if (!is_null($offset)) {
             $queryBuilder->setFirstResult($offset);
         }
         if ($limit) {
             $queryBuilder->setMaxResults($limit);
         }
-        return $queryBuilder->getQuery()->getResult();
+        return $queryBuilder->setParameters($params)->getQuery()->getResult();
     }
 
     /**

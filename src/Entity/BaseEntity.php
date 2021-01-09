@@ -25,25 +25,25 @@ class BaseEntity
      * Дата создания сущности
      *
      * @var DateTime
-     * @ORM\Column(type="datetime", name="created_at")
+     * @ORM\Column(type="datetime", name="created_at", nullable=TRUE)
      */
-    protected $createdAt;
+    protected $created_at;
 
     /**
      * @var DateTime|null
      * @ORM\Column(type="datetime", name="deleted_at", nullable=TRUE)
      */
-    protected $deletedAt;
+    protected $deleted_at;
 
     /**
      * @var DateTime|null
      * @ORM\Column(type="datetime", name="updated_at", nullable=TRUE)
      */
-    protected $updatedAt;
+    protected $updated_at;
 
     public function __construct()
     {
-        $this->createdAt = new DateTime();
+        $this->created_at = new DateTime();
     }
 
     /**
@@ -63,7 +63,7 @@ class BaseEntity
      */
     public function getCreatedAt(): DateTime
     {
-        return $this->createdAt;
+        return $this->created_at;
     }
 
     /**
@@ -73,7 +73,7 @@ class BaseEntity
      */
     public function getUpdatedAt(): ?DateTime
     {
-        return $this->updatedAt;
+        return $this->updated_at;
     }
 
     /**
@@ -83,7 +83,7 @@ class BaseEntity
      */
     public function getDeletedAt(): ?DateTime
     {
-        return $this->deletedAt;
+        return $this->deleted_at;
     }
 
     /**
@@ -92,6 +92,6 @@ class BaseEntity
      */
     public function beforeSave()
     {
-        $this->createdAt = new DateTime();
+        $this->created_at = new DateTime();
     }
 }

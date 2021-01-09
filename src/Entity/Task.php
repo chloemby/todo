@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+
+use App\Entity\User;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,11 +38,10 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
     private $name;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @var int
+     * @ORM\Column(type="integer")
      */
-    private $user;
+    private $user_id;
 
     /**
      * Task constructor.
@@ -52,7 +53,6 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
     {
         $this->name = $name;
         $this->description = $description;
-        $this->user = $user;
 
         parent::__construct();
     }
@@ -113,19 +113,12 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
             'deleted_at' => $this->getDeletedAt() ? $this->getDeletedAt()->format('Y-m-d H:i:s') : null,
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'user_id' => $this->getUser() ? $this->getUser()->getId() : null
+            'user_id' => $this->getUserId()
         ];
     }
 
-    public function getUser(): ?User
+    public function getUserId(): ?int
     {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
+        return $this->user_id;
     }
 }

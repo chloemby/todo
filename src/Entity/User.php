@@ -41,7 +41,7 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
 
     /**
      * @var array
-     * @ORM\OneToMany(targetEntity="Task", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      */
     private $tasks;
 
@@ -50,6 +50,8 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
 //        $this->tasks = new ArrayCollection();
         $this->name = $name;
         $this->phone = $phone;
+
+        parent::__construct();
     }
 
     /**

@@ -4,8 +4,9 @@
 namespace App\TestsController\Api\v1;
 
 
+use App\Builder\TaskBuilder;
 use App\Entity\Task;
-use App\Entity\User;
+use App\Services\TaskService;
 use Mockery;
 use App\Controller\Api\v1\TaskController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -121,6 +122,74 @@ class TaskControllerTest extends WebTestCase
         $request = new Request();
         $request->request->add($params);
         $response = (new TaskController($taskService, $taskBuilder))->createTaskAction($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
     }
+
+    public function testFailGetTasksWithoutParams()
+    {
+        $taskService = Mockery::mock(TaskService::class);
+        $taskBuilder = Mockery::mock(TaskBuilder::class);
+        $request = new Request();
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testFailGetTasksWitEmptyDates()
+    {
+        $taskService = Mockery::mock(TaskService::class);
+        $taskBuilder = Mockery::mock(TaskBuilder::class);
+        $request = new Request();
+        $params = [
+            'user_id' => 1,
+            'date_start' => null,
+            'date_end' => null
+        ];
+        $request->request->add($params);
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $params = [
+            'user_id' => 1,
+            'date_start' => null,
+            'date_end' => date('Y-m-d H:i:s')
+        ];
+        $request->request->add($params);
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $params = [
+            'user_id' => 1,
+            'date_start' => date('Y-m-d H:i:s'),
+            'date_end' => null
+        ];
+        $request->request->add($params);
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
+    public function testFailGetTasksWithInvalidDatesFormat()
+    {
+        $taskService = Mockery::mock(TaskService::class);
+        $taskBuilder = Mockery::mock(TaskBuilder::class);
+        $request = new Request();
+        $params = [
+            'user_id' => 1,
+            'date_start' => date('d.m.Y H:i:s'),
+            'date_end' => date('Y-m-d H:i:s')
+        ];
+        $request->request->add($params);
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+
+        $request = new Request();
+        $params = [
+            'user_id' => 1,
+            'date_start' => date('Y-m-d H:i:s'),
+            'date_end' => date('d.m.Y H:i:s')
+        ];
+        $request->request->add($params);
+        $response = (new TaskController($taskService, $taskBuilder))->getTasksAction($request);
+        $this->assertEquals(400, $response->getStatusCode());
+    }
+
 }
