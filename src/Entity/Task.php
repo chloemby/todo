@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tasks")
  * @ORM\HasLifecycleCallbacks()
  */
-class Task extends BaseEntity implements EntityInterface
+class Task extends BaseEntity implements EntityInterface, JsonSerializable
 {
     /**
      * Описание задачи
@@ -53,6 +53,8 @@ class Task extends BaseEntity implements EntityInterface
         $this->name = $name;
         $this->description = $description;
         $this->user = $user;
+
+        parent::__construct();
     }
 
     /**
@@ -106,9 +108,12 @@ class Task extends BaseEntity implements EntityInterface
     {
         return [
             'id' => $this->getId(),
+            'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s'),
+            'updated_at' => $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d H:i:s') : null,
+            'deleted_at' => $this->getDeletedAt() ? $this->getDeletedAt()->format('Y-m-d H:i:s') : null,
             'name' => $this->getName(),
             'description' => $this->getDescription(),
-            'created_at' => $this->getCreatedAt()->format('Y-m-d H:i:s')
+            'user_id' => $this->getUser() ? $this->getUser()->getId() : null
         ];
     }
 

@@ -4,6 +4,8 @@
 namespace App\TestsController\Api\v1;
 
 
+use App\Entity\Task;
+use App\Entity\User;
 use Mockery;
 use App\Controller\Api\v1\TaskController;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -113,7 +115,8 @@ class TaskControllerTest extends WebTestCase
             'description' => 'Test description'
         ];
         $taskService = Mockery::mock('App\Services\TaskService');
-        $taskService->shouldReceive('createTask');
+        $task = new Task('', '');
+        $taskService->shouldReceive('createTask')->andReturn($task);
         $taskBuilder = Mockery::mock('App\Builder\TaskBuilder');
         $request = new Request();
         $request->request->add($params);

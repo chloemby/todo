@@ -41,6 +41,11 @@ class BaseEntity
      */
     protected $updatedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
+
     /**
      * Получить ID сущности
      *
