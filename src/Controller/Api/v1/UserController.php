@@ -41,11 +41,11 @@ class UserController extends BaseController
     public function createUser(Request $request): JsonResponse
     {
         try {
-            $phone = $request->get('phone', null);
+            $phone = $request->get('phone');
             if (!$phone) {
                 throw new InvalidArgumentException('Неверно указан номер пользователя', Response::HTTP_BAD_REQUEST);
             }
-            $name = $request->get('name', null);
+            $name = $request->get('name');
             if (!$name) {
                 throw new InvalidArgumentException('Неверно указано имя пользователя', Response::HTTP_BAD_REQUEST);
             }

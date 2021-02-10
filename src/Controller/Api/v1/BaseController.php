@@ -21,15 +21,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BaseController extends AbstractController
 {
-    /**
-     * @var AbstractService
-     */
-    protected $service;
+    protected AbstractService $service;
 
-    /**
-     * @var BuilderInterface
-     */
-    protected $builder;
+    protected BuilderInterface $builder;
 
     /**
      * Сообщение для ответа при неизвестной ошибке
@@ -44,7 +38,7 @@ class BaseController extends AbstractController
     /**
      * Получить ответ
      *
-     * @param $data
+     * @param mixed $data
      * @param string $message
      * @param int $status
      * @return JsonResponse
