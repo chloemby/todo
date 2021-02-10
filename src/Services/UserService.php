@@ -36,7 +36,7 @@ class UserService extends AbstractService
      * @param string $name Имя пользователя
      * @return User
      */
-    public function createUser(string $phone, string $name)
+    public function createUser(string $phone, string $name): User
     {
         $params = [
             'name' => $name,

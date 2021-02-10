@@ -26,24 +26,22 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
     /**
      * Номер телефона пользователя
      *
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $phone = '';
+    private string $phone = '';
 
     /**
      * Имя пользователя
      *
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $name = '';
+    private string $name = '';
 
     /**
      * @var array
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      */
-    private $tasks;
+    private array $tasks;
 
     public function __construct(string $phone, string $name)
     {
@@ -69,7 +67,7 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -82,7 +80,7 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
         return $this->tasks;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->getId(),

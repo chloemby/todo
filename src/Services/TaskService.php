@@ -23,10 +23,7 @@ use http\Env\Response;
 class TaskService extends AbstractService
 {
 
-    /**
-     * @var UserRepository
-     */
-    private $userRepository;
+    private UserRepository $userRepository;
 
     public function __construct(TaskBuilder $builder,
                                 TaskRepository $repository,

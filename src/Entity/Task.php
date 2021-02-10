@@ -24,24 +24,21 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
     /**
      * Описание задачи
      *
-     * @var string
      * @ORM\Column(type="text")
      */
-    private $description;
+    private string $description;
 
     /**
      * Название задачи
      *
-     * @var string
      * @ORM\Column(type="string", length=250)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var int
      * @ORM\Column(type="integer")
      */
-    private $user_id;
+    private int $user_id;
 
     /**
      * Task constructor.
@@ -59,8 +56,6 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
 
     /**
      * Получить описание задачи
-     *
-     * @return string
      */
     public function getDescription(): string
     {

@@ -14,32 +14,28 @@ class BaseEntity
     /**
      * ID сущности задачи
      *
-     * @var int|null
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    protected ?int $id;
 
     /**
      * Дата создания сущности
      *
-     * @var DateTime
      * @ORM\Column(type="datetime", name="created_at", nullable=TRUE)
      */
-    protected $created_at;
+    protected DateTime $created_at;
 
     /**
-     * @var DateTime|null
      * @ORM\Column(type="datetime", name="deleted_at", nullable=TRUE)
      */
-    protected $deleted_at;
+    protected ?DateTime $deleted_at;
 
     /**
-     * @var DateTime|null
      * @ORM\Column(type="datetime", name="updated_at", nullable=TRUE)
      */
-    protected $updated_at;
+    protected ?DateTime $updated_at;
 
     public function __construct()
     {
@@ -48,8 +44,6 @@ class BaseEntity
 
     /**
      * Получить ID сущности
-     *
-     * @return int
      */
     public function getId(): ?int
     {
@@ -58,8 +52,6 @@ class BaseEntity
 
     /**
      * Получить дату создания сущности
-     *
-     * @return DateTime
      */
     public function getCreatedAt(): DateTime
     {
@@ -68,8 +60,6 @@ class BaseEntity
 
     /**
      * Получить время последнего обновления сущности
-     *
-     * @return DateTime|null
      */
     public function getUpdatedAt(): ?DateTime
     {
@@ -78,8 +68,6 @@ class BaseEntity
 
     /**
      * Получить время удаления сущности
-     *
-     * @return DateTime|null
      */
     public function getDeletedAt(): ?DateTime
     {

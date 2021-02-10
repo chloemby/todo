@@ -16,17 +16,13 @@ class ApiResponse
 {
     /**
      * Данные ответа
-     *
-     * @var array
      */
-    private $data = [];
+    private array $data;
 
     /**
      * Сообщение ответа
-     *
-     * @var string
      */
-    private $message = '';
+    private string $message;
 
     public function __construct($data, string $message = '')
     {

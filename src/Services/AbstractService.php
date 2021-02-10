@@ -19,20 +19,12 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 abstract class AbstractService
 {
-    /**
-     * @var ServiceEntityRepository
-     */
-    protected $repository;
 
-    /**
-     * @var BuilderInterface
-     */
-    protected $builder;
+    protected ServiceEntityRepository $repository;
 
-    /**
-     * @var AbstractValidator
-     */
-    protected $validator;
+    protected BuilderInterface $builder;
+
+    protected AbstractValidator $validator;
 
     /**
      * @param BuilderInterface $builder
@@ -64,7 +56,7 @@ abstract class AbstractService
      * @param int $id ID сущности
      * @return object|null
      */
-    public function find(int $id)
+    public function find(int $id): ?object
     {
         try {
             $entity = $this->repository->find($id);
