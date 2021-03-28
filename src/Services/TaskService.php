@@ -23,17 +23,13 @@ use http\Env\Response;
 class TaskService extends AbstractService
 {
 
-    private UserRepository $userRepository;
-
     public function __construct(TaskBuilder $builder,
                                 TaskRepository $repository,
-                                TaskValidator $validator,
-                                UserRepository $userRepository)
+                                TaskValidator $validator)
     {
         $this->builder = $builder;
         $this->repository = $repository;
         $this->validator = $validator;
-        $this->userRepository = $userRepository;
 
         parent::__construct($builder, $repository, $validator);
     }
@@ -60,35 +56,13 @@ class TaskService extends AbstractService
 
     /**
      * Создать задачу
-     *
-     * @param int $userId ID пользователя
-     * @param DateTime $startDate Дата начала действия задачи
-     * @param DateTime $endDate Дата конца дествия задачи
-     * @param string $name Название задачи
-     * @param string $description Описание задачи
+     * @param array $params
      * @return Task Созданная задача
-     * @throws TaskServiceException
      */
-    public function createTask(
-        int $userId,
-        DateTime $startDate,
-        DateTime $endDate = null,
-        string $name = null,
-        string $description = null): Task
+    public function create(array $params): Task
     {
-        if (!$user = $this->userRepository->find($userId)) {
-            throw new TaskServiceException(sprintf('Пользователя с ID %s не существует', $userId), 400);
-        }
-
-        $params = [
-            'user' => $user,
-            'start_date' => $startDate,
-            'end_date' => $endDate,
-            'name' => $name,
-            'description' => $description
-        ];
+        $this->validator->validateCreation($params);
         $task = $this->createEntity($params);
-        $this->repository->createTask($task);
-        return $task;
+        return $this->repository->create($task);
     }
 }

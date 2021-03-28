@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 
+use DateTime;
 use App\Entity\User;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,6 +44,11 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
     private int $user_id;
 
     /**
+     * @ORM\Column(type="datetime", name="expire_at", nullable=TRUE)
+     */
+    private ?DateTime $expire_at;
+
+    /**
      * @var \App\Entity\User
      * @ManyToOne(targetEntity="User", inversedBy="tasks")
      * @JoinColumn(name="user_id", referencedColumnName="id")
@@ -53,11 +59,12 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
      * Task constructor.
      * @param string $description
      * @param string $name
-     * @param User|null $user
+     * @param int $userId
      */
-    public function __construct(string $description, string $name, User $user = null)
+    public function __construct(string $description, string $name, int $userId)
     {
         $this->name = $name;
+        $this->user_id = $userId;
         $this->description = $description;
 
         parent::__construct();
@@ -105,10 +112,31 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
         return $this;
     }
 
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function getExpireAt(): ?DateTime
+    {
+        return $this->expire_at;
+    }
+
+    public function setExpireAt(?DateTime $expireAt): self
+    {
+        $this->expire_at = $expireAt;
+        return $this;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
     /**
      * @inheritDoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->getId(),
@@ -119,15 +147,5 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
             'description' => $this->getDescription(),
             'user_id' => $this->getUserId()
         ];
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 }

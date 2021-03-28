@@ -80,9 +80,6 @@ class TaskController extends BaseController
     public function getTaskAction(int $id): JsonResponse
     {
         try {
-            if (!$id) {
-                throw new InvalidArgumentException('Неверно передан ID задачи', Response::HTTP_BAD_REQUEST);
-            }
             $task = $this->service->find($id);
             return $this->response($task);
         } catch (TaskServiceException | InvalidArgumentException $e) {
@@ -102,27 +99,16 @@ class TaskController extends BaseController
     public function createTaskAction(Request $request): JsonResponse
     {
         try {
-            $userId = $request->get('user_id');
-            if (is_null($userId)) {
-                throw new InvalidArgumentException('Такого пользователя не существует', Response::HTTP_BAD_REQUEST);
-            }
-            $userId = intval($userId);
-            $startDate = $request->get('start_date', date('Y-m-d H:i:s'));
-            if (!$startDate || !$startDate = DateTime::createFromFormat('Y-m-d H:i:s', $startDate)) {
-                throw new InvalidArgumentException('Неверно передана дата начала действия задачи', Response::HTTP_BAD_REQUEST);
-            }
-            $endDate = $request->get('end_date', date('Y-m-d H:i:s', strtotime('+1 days')));
-            if (!$endDate || !$endDate = DateTime::createFromFormat('Y-m-d H:i:s', $endDate)) {
-                throw new InvalidArgumentException('Неверно передана дата конца действия задачи', Response::HTTP_BAD_REQUEST);
-            }
-            $name = $request->get('name', null);
-            if (!$name) {
-                throw new InvalidArgumentException('Название задачи не может быть пустым', Response::HTTP_BAD_REQUEST);
-            }
-            $description = $request->get('description', '');
-            $task = $this->service->createTask($userId, $startDate, $endDate, $name, $description);
+            $params = [
+                'user_id' => $request->get('user_id'),
+                'start_date' => $request->get('start_date', date('Y-m-d H:i:s')),
+                'end_date' => $request->get('end_date', date('Y-m-d H:i:s')),
+                'name' => $request->get('name'),
+                'description' => $request->get('description'),
+            ];
+            $task = $this->service->create($params);
             return $this->response($task, self::OK_MESSAGE, Response::HTTP_CREATED);
-        } catch (InvalidArgumentException | TaskServiceException $e) {
+        } catch (InvalidArgumentException$e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
             return $this->response([], $this::SERVER_ERROR_MESSAGE, Response::HTTP_INTERNAL_SERVER_ERROR);

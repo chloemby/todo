@@ -69,7 +69,7 @@ class TaskRepository extends AbstractRepository
      * @param Task $task
      * @return Task
      */
-    public function createTask(Task $task)
+    public function create(Task $task): Task
     {
         $this->createEntity($task);
         return $task;

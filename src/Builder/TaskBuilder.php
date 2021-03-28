@@ -15,6 +15,6 @@ class TaskBuilder implements BuilderInterface
 {
     public function build(array $params): EntityInterface
     {
-        return new Task($params['description'], $params['name'], $params['user']);
+        return new Task($params['description'], $params['name'], $params['user_id']);
     }
 }

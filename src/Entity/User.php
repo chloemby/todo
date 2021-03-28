@@ -6,7 +6,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 
-use App\Entity\Task;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\OneToMany;
@@ -28,14 +27,14 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
      *
      * @ORM\Column(type="text")
      */
-    private string $phone = '';
+    private string $phone;
 
     /**
      * Имя пользователя
      *
      * @ORM\Column(type="text")
      */
-    private string $name = '';
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
