@@ -46,4 +46,9 @@ class UserService extends AbstractService
         $this->repository->createUser($user);
         return $user;
     }
+
+    public function get($id): User
+    {
+        return $this->repository->get($id);
+    }
 }

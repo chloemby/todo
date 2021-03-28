@@ -40,6 +40,8 @@ class BaseEntity
     public function __construct()
     {
         $this->created_at = new DateTime();
+        $this->updated_at = null;
+        $this->deleted_at = null;
     }
 
     /**

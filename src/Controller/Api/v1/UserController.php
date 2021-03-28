@@ -3,9 +3,9 @@
 namespace App\Controller\Api\v1;
 
 
+use Throwable;
 use App\Builder\UserBuilder;
 use App\Services\UserService;
-use Exception;
 use InvalidArgumentException;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,12 +33,11 @@ class UserController extends BaseController
     }
 
     /**
-     *
-     * @Route("/user", name="user", methods={"PUT"})
+     * @Route("/users", name="create_user", methods={"PUT"})
      * @param Request $request
      * @return JsonResponse
      */
-    public function createUser(Request $request): JsonResponse
+    public function createUserAction(Request $request): JsonResponse
     {
         try {
             $phone = $request->get('phone');
@@ -51,7 +50,21 @@ class UserController extends BaseController
             }
             $user = $this->service->createUser($phone, $name);
             return $this->response($user);
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
+            return $this->response([], $this::SERVER_ERROR_MESSAGE, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @Route("/users/{id}", name="user_by_id", methods={"GET"})
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getUserAction(int $id): JsonResponse
+    {
+        try {
+            return $this->response($this->service->find($id));
+        } catch (Throwable $e) {
             return $this->response([], $this::SERVER_ERROR_MESSAGE, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

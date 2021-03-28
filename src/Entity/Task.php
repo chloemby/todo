@@ -9,6 +9,8 @@ namespace App\Entity;
 use App\Entity\User;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 
 /**
@@ -39,6 +41,13 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
      * @ORM\Column(type="integer")
      */
     private int $user_id;
+
+    /**
+     * @var \App\Entity\User
+     * @ManyToOne(targetEntity="User", inversedBy="tasks")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private User $user;
 
     /**
      * Task constructor.
@@ -115,5 +124,10 @@ class Task extends BaseEntity implements EntityInterface, JsonSerializable
     public function getUserId(): ?int
     {
         return $this->user_id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
     }
 }

@@ -4,7 +4,6 @@
 namespace App\Services\Helpers;
 
 
-use JsonSerializable;
 
 /**
  * Класс для создания и сериализации стандартизированного ответа API
@@ -15,9 +14,9 @@ use JsonSerializable;
 class ApiResponse
 {
     /**
-     * Данные ответа
+     * @var mixed
      */
-    private array $data;
+    private $data;
 
     /**
      * Сообщение ответа

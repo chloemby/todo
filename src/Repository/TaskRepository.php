@@ -30,14 +30,14 @@ class TaskRepository extends AbstractRepository
      * @param DateTime|null $dateEnd
      * @param int|null $limit
      * @param int|null $offset
-     * @return mixed
+     * @return Task[]
      */
     public function findByFilter(
         int $userId,
         DateTime $dateStart = null,
         DateTime $dateEnd = null,
         int $offset = null,
-        int $limit = null)
+        int $limit = null): ?array
     {
         $queryBuilder = $this->createQueryBuilder('t');
         $queryBuilder->where('t.user_id = :user_id');

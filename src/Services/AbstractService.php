@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use Exception;
+use Throwable;
 use App\Builder\BuilderInterface;
 use App\Entity\EntityInterface;
 use App\Services\Validators\AbstractValidator;
@@ -60,7 +60,7 @@ abstract class AbstractService
     {
         try {
             $entity = $this->repository->find($id);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $entity = null;
         } finally {
             return $entity;

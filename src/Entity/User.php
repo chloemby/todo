@@ -9,8 +9,8 @@ namespace App\Entity;
 use App\Entity\Task;
 use JsonSerializable;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\PersistentCollection;
 
 
 /**
@@ -38,14 +38,12 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
     private string $name = '';
 
     /**
-     * @var array
      * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
      */
-    private array $tasks;
+    private PersistentCollection $tasks;
 
     public function __construct(string $phone, string $name)
     {
-//        $this->tasks = new ArrayCollection();
         $this->name = $name;
         $this->phone = $phone;
 
@@ -54,18 +52,14 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
 
     /**
      * Получить номер телефона пользователя
-     *
-     * @return mixed
      */
-    public function getPhone()
+    public function getPhone(): string
     {
         return $this->phone;
     }
 
     /**
      * Получить имя пользователя
-     *
-     * @return string
      */
     public function getName(): string
     {
@@ -73,9 +67,9 @@ class User extends BaseEntity implements EntityInterface, JsonSerializable
     }
 
     /**
-     * @return Collection|Task[]
+     * @return Task[]
      */
-    public function getTasks(): Collection
+    public function getTasks(): PersistentCollection
     {
         return $this->tasks;
     }

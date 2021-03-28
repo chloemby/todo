@@ -10,13 +10,9 @@ use DateTime;
 use Throwable;
 use InvalidArgumentException;
 use App\Builder\TaskBuilder;
-use App\Entity\Task;
 use App\Services\TaskService;
 use App\Services\Helpers\DateHelper;
 use App\Services\Exceptions\TaskServiceException;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,46 +33,7 @@ class TaskController extends BaseController
 
     /**
      * Получить задачи пользователя за период
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Возвращает все задачи пользователя",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=Task::class, groups={"full"}))
-     *     )
-     * )
-     * @SWG\Parameter(
-     *     name="user_id",
-     *     in="query",
-     *     type="integer",
-     *     description="ID пользователя"
-     * )
-     * @SWG\Parameter(
-     *     name="date_start",
-     *     in="query",
-     *     type="string",
-     *     description="Дата начала периода создания задачи"
-     * )
-     * @SWG\Parameter(
-     *     name="date_end",
-     *     in="query",
-     *     type="string",
-     *     description="Дата конца периода создания задачи"
-     * )
-     * @SWG\Parameter(
-     *     name="offset",
-     *     in="query",
-     *     type="integer",
-     *     description="Отступ"
-     * )
-     * @SWG\Parameter(
-     *     name="limit",
-     *     in="query",
-     *     type="integer",
-     *     description="Максимальное число записей в ответе"
-     * )
-     * @Route("/task", name="tasks", methods={"GET"})
+     * @Route("/tasks", name="tasks", methods={"GET"})
      * @param Request $request
      * @return JsonResponse
      */
@@ -138,14 +95,14 @@ class TaskController extends BaseController
     /**
      * Создать задачу
      *
-     * @Route("/task", name="create_task", methods={"PUT"})
+     * @Route("/tasks", name="create_task", methods={"PUT"})
      * @param Request $request
      * @return JsonResponse
      */
     public function createTaskAction(Request $request): JsonResponse
     {
         try {
-            $userId = $request->get('user_id', null);
+            $userId = $request->get('user_id');
             if (is_null($userId)) {
                 throw new InvalidArgumentException('Такого пользователя не существует', Response::HTTP_BAD_REQUEST);
             }

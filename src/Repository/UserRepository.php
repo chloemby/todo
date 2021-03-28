@@ -22,20 +22,6 @@ class UserRepository extends AbstractRepository
     }
 
     /**
-     * Получить задачи пользователя
-     *
-     * @param User $user Пользователь
-     * @param DateTimeInterface $startDate
-     * @param DateTimeInterface $endDate
-     * @return array
-     */
-    public function getUserTasks(User $user, DateTimeInterface $startDate, DateTimeInterface $endDate): array
-    {
-//        $tasks = $user->getTasks();
-//        return $tasks;
-    }
-
-    /**
      * Создать пользователя в БД
      *
      * @param User $user Сущность создаваемого пользователя
