@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Service;
 
 
 use DateTime;
@@ -9,8 +9,8 @@ use App\Entity\Task;
 use App\Builder\TaskBuilder;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use App\Services\Validators\TaskValidator;
-use App\Services\Exceptions\TaskServiceException;
+use App\Service\Validators\TaskValidator;
+use App\Service\Exceptions\TaskServiceException;
 use http\Env\Response;
 
 
@@ -44,13 +44,9 @@ class TaskService extends AbstractService
      * @param int $limit
      * @return mixed
      */
-    public function findByUserId(
-        int $userId,
-        DateTime $dateStart,
-        DateTime $dateEnd,
-        int $offset,
-        int $limit)
+    public function findByFilter(array $params)
     {
+        $this->validator->validateCreation($params);
         return $this->repository->findByFilter($userId, $dateStart, $dateEnd, $offset, $limit);
     }
 

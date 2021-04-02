@@ -5,8 +5,8 @@ namespace App\Controller\Api\v1;
 
 
 use App\Builder\BuilderInterface;
-use App\Services\AbstractService;
-use App\Services\Helpers\ApiResponse;
+use App\Service\AbstractService;
+use App\Service\Helpers\ApiResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

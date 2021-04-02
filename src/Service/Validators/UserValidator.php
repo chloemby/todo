@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Validators;
+namespace App\Service\Validators;
 
 
 class UserValidator extends AbstractValidator

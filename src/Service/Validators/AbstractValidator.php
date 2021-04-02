@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Services\Validators;
+namespace App\Service\Validators;
 
 
-use App\Services\AbstractService;
+use App\Service\AbstractService;
 
 class AbstractValidator
 {

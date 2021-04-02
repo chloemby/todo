@@ -7,12 +7,13 @@ namespace App\Controller\Api\v1;
 
 
 use DateTime;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Throwable;
 use InvalidArgumentException;
 use App\Builder\TaskBuilder;
-use App\Services\TaskService;
-use App\Services\Helpers\DateHelper;
-use App\Services\Exceptions\TaskServiceException;
+use App\Service\TaskService;
+use App\Service\Helpers\DateHelper;
+use App\Service\Exceptions\TaskServiceException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,6 +41,20 @@ class TaskController extends BaseController
     public function getTasksAction(Request $request): JsonResponse
     {
         try {
+            $params = [
+                'user_id' => $request->get('user_id'),
+                'date_start' => $request->get('date_start', date('Y-m-01 00:00:00')),
+                'date_end' => $request->get('date_end', date('Y-m-t 23:59:59')),
+                'offset' => $request->get('offset', 0),
+                'limit' => $request->get('limit', 100)
+            ];
+            $tasks = $this->service->findByUserId($params);
+            $response = $this->response($tasks);
+            if (is_null($tasks) === false && count($tasks) === 0) {
+                $response = $this->response($tasks, self::OK_MESSAGE, Response::HTTP_NO_CONTENT);
+            }
+            return $response;
+
             $userId = $request->get('user_id');
             if (!$userId) {
                 throw new InvalidArgumentException('Такого пользователя не существует', Response::HTTP_BAD_REQUEST);
@@ -82,7 +97,7 @@ class TaskController extends BaseController
         try {
             $task = $this->service->find($id);
             return $this->response($task);
-        } catch (TaskServiceException | InvalidArgumentException $e) {
+        } catch (TaskServiceException | BadRequestHttpException $e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
             return $this->response([], 'Произошла ошибка, обратитесь в поддержку', Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -108,7 +123,7 @@ class TaskController extends BaseController
             ];
             $task = $this->service->create($params);
             return $this->response($task, self::OK_MESSAGE, Response::HTTP_CREATED);
-        } catch (InvalidArgumentException$e) {
+        } catch (BadRequestHttpException $e) {
             return $this->response([], $e->getMessage(), $e->getCode());
         } catch (Throwable $e) {
             return $this->response([], $this::SERVER_ERROR_MESSAGE, Response::HTTP_INTERNAL_SERVER_ERROR);

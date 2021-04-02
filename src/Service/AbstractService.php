@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Service;
 
 
 use Throwable;
 use App\Builder\BuilderInterface;
 use App\Entity\EntityInterface;
-use App\Services\Validators\AbstractValidator;
+use App\Service\Validators\AbstractValidator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 

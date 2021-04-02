@@ -1,25 +1,23 @@
 <?php
 
 
-namespace App\Services\Validators;
+namespace App\Service\Validators;
 
 
-use App\Services\Helpers\DateHelper;
-use App\Services\TaskService;
-use App\Services\UserService;
+use App\Service\Helpers\DateHelper;
+use App\Service\TaskService;
+use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 
 class TaskValidator extends AbstractValidator
 {
     private UserService $user;
 
-    private TaskService $task;
-
-    public function __construct(UserService $userService, TaskService $taskService)
+    public function __construct(UserService $userService)
     {
         $this->user = $userService;
-        $this->task = $taskService;
     }
 
     public function validateCreation(array $params): array

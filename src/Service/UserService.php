@@ -1,15 +1,15 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Service;
 
 
 use App\Builder\BuilderInterface;
 use App\Builder\UserBuilder;
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Services\Validators\AbstractValidator;
-use App\Services\Validators\UserValidator;
+use App\Service\Validators\AbstractValidator;
+use App\Service\Validators\UserValidator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**

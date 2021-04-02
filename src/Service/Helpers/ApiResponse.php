@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services\Helpers;
+namespace App\Service\Helpers;
 
 
 

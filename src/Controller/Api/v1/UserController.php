@@ -5,7 +5,7 @@ namespace App\Controller\Api\v1;
 
 use Throwable;
 use App\Builder\UserBuilder;
-use App\Services\UserService;
+use App\Service\UserService;
 use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
